@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MobileApplication</string>
+    <string name="open">Open</string>
+    <string name="aucun_port_trouvé">Aucun port trouvé</string>
+</resources>
