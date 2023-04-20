@@ -1,10 +1,12 @@
 package dev.app.mobileapplication
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,16 +21,28 @@ import retrofit2.Response
 
 class PortsListActivity : AppCompatActivity() {
 
-    val portsArrayList= ArrayList<String>()
+    lateinit var portsArrayList: ArrayList<String>
     var portId: String = ""
+    var username = ""
 
-
+    lateinit var usernameTextView: TextView
+    lateinit var cardTextView: TextView
     lateinit var button: android.widget.Button
     lateinit var emptyPortsLayout: LinearLayout
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapter: PortsAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ports_list)
+
+        // TextViews
+        usernameTextView = findViewById(R.id.usernameTV)
+        cardTextView = findViewById(R.id.numCarteTV)
+
+        // get username and card number
+
 
         // button
         button = findViewById(R.id.button)
@@ -39,18 +53,16 @@ class PortsListActivity : AppCompatActivity() {
 
         // socket connection
         SocketHandler.setSocket()
-
         val mSocket = SocketHandler.getSocket()
         SocketHandler.establishConnection()
 
-
-
         // recycler view
         initPortsList()
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = PortsAdapter(portsArrayList)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        adapter = PortsAdapter(portsArrayList)
         recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
         adapter.setOnItemClickListener(object : PortsAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 adapter.selectedPosition = position
@@ -58,8 +70,7 @@ class PortsListActivity : AppCompatActivity() {
             }
         })
 
-
-
+        // button listener to send socket
         button.setOnClickListener {
             if (adapter.selectedPosition != -1) {
                 val builder = AlertDialog.Builder(this)
@@ -97,15 +108,15 @@ class PortsListActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun initPortsList() {
+        portsArrayList = ArrayList()
         loadCard()
-        Log.d("Port ID", portId)
         val user_cart = portId
         val retIn = RetrofitInstance.getRetrofitInstance().create(ApiService::class.java)
         retIn.getPortsbUser(user_cart).enqueue(object : Callback<List<Port>> {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<List<Port>>, response: Response<List<Port>>) {
                 if (response.isSuccessful) {
                     val ports = response.body()
@@ -113,6 +124,7 @@ class PortsListActivity : AppCompatActivity() {
                         portsArrayList.add(it.nom)
                     }
                     Log.d("PortsListActivity", portsArrayList.toString())
+                    adapter.notifyDataSetChanged()
                 } else {
                     Log.d("PortsListActivity", "Error")
                 }
@@ -132,8 +144,10 @@ class PortsListActivity : AppCompatActivity() {
 
     private fun loadCard(){
         val sharredPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-        val savedString = sharredPreferences.getString("CARD_NUMBER", "")
-        portId = savedString.toString()
+        portId = sharredPreferences.getString("CARD_NUMBER", "").toString()
+        username = sharredPreferences.getString("USERNAME", "").toString()
+        usernameTextView.text = username
+        cardTextView.text = portId
 
     }
 

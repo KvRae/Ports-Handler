@@ -1,16 +1,13 @@
 package dev.app.mobileapplication
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
 class PortsAdapter (private val portsList: ArrayList<String>) : RecyclerView.Adapter<PortsAdapter.PortsViewHolder>() {
-
 
     private lateinit var mListener: OnItemClickListener
     private var lastClickedPosition = -1
@@ -31,9 +28,6 @@ class PortsAdapter (private val portsList: ArrayList<String>) : RecyclerView.Ada
             }
         }
     }
-
-
-
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         mListener = listener

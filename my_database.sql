@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2023 at 06:08 PM
+-- Generation Time: Apr 20, 2023 at 04:09 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -38,9 +38,10 @@ CREATE TABLE `port` (
 --
 
 INSERT INTO `port` (`id`, `nom`, `carte_user`) VALUES
-(1, 'port 1', '5'),
-(6, 'port 2', '5'),
-(8, 'port 3', '5');
+(10, 'Port 1', '10'),
+(11, 'Port 2', '10'),
+(12, 'Port 3', '10'),
+(13, 'Port 4', '10');
 
 -- --------------------------------------------------------
 
@@ -60,10 +61,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nom`, `password`, `num_carte`) VALUES
-(10, 'admin', '$2a$10$euQmQBfUnRaG6QtTK8tCS.pcyrVntH6TIQ4RZrG/vThWK.3G1KA6y', '5'),
-(12, 'admin', '$2a$10$whYp9J0xsOi6crpG/qDp0up57/rpcWJOSG/x8dh4hftn1zLBv7BFa', '6'),
-(14, 'admin', '$2a$10$q2A9DavyKWYhiOcPnpM62ubk3Za9IK4JoKHOeaeoqgNV5Hnt.4wNi', '7'),
-(15, 'admin', '$2a$10$tEbNGByX641RRfYUpzc9WuyLNf5cVZI4r4doTXjxaUXpRGs/5cXN.', '10');
+(16, 'admin', '$2a$10$aSDZv4U3sZjXBCQXaz5WdOAmpjO9ycdLZqJnuLfhAtHkAnIbzA0wO', '10'),
+(18, 'admin2', '$2a$10$IdSoVAPkBLJzSGgsQyqBDe11J4n182lpU/9OuYNnrID9uJLFHar8G', '11');
 
 --
 -- Indexes for dumped tables
@@ -81,7 +80,8 @@ ALTER TABLE `port`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `num_carte` (`num_carte`);
+  ADD UNIQUE KEY `num_carte` (`num_carte`),
+  ADD UNIQUE KEY `nom` (`nom`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -91,13 +91,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `port`
 --
 ALTER TABLE `port`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables

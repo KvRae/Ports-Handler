@@ -24,7 +24,9 @@ io.on('connection', (socket) => {
     console.log('new connection made.'+socket.id);
     socket.on('connect_port', (data) => {
         portId = data;
-        socket.emit('connected_port', 'connected to port '+portId);
+        console.log('received from phone '+portId);
+        socket.emit('connected_port', 'connected to '+portId);
+        console.log('sent to phone '+portId);
     });
 });
 

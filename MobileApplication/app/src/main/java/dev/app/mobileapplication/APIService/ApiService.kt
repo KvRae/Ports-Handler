@@ -25,7 +25,6 @@ interface ApiService {
 data class User(
     val nom: String,
     val password: String,
-    val num_carte: String
 )
 
 data class Port(

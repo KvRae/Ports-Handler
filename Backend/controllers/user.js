@@ -69,24 +69,21 @@ exports.createUser = async (req, res) => {
 // login user
 exports.login = async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
         await pool.getConnection((err, connection) => {
             if (err) throw err;
-            connection.query('SELECT * FROM user WHERE num_carte = ? ', [req.body.num_carte], (err, rows) => {
+            connection.query('SELECT * FROM user WHERE nom = ? ', [req.body.nom], (err, rows) => {
                 connection.release();
                 if (!err) {
                     if (rows.length > 0) {
                         bcrypt.compare(req.body.password, rows[0].password, (err, result) => {
                             if (result) {
-                                res.json({message: 'User logged in successfully'});
+                                res.status(201).json(rows[0]);
                             } else {
-                                res.json({message: 'Wrong password'});
+                                res.status(401).json({message: 'Wrong password'});
                             }
                         });
                     } else {
-                        res.json({message: 'User does not exist'});
+                        res.status(404).json({message: 'User does not exist'});
                     }
                 } else {
                     console.log(err);

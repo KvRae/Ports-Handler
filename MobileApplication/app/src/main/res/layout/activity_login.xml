@@ -56,24 +56,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilCardNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:hintEnabled="true"
-        app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
-
-        <EditText
-            android:id="@+id/etCardNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="CardNumber"
-            android:inputType="text"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
