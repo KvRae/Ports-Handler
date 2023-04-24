@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
             }
             @SuppressLint("CommitPrefEdits")
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) =
                 if (response.code() == 201) {
                     // creating a session
                     val gson = Gson()
@@ -78,8 +78,10 @@ class LoginActivity : AppCompatActivity() {
                     val jsonObject = gson.fromJson(jsonSTRING, JsonObject::class.java)
                     val id = jsonObject.get("id").asString
                     val username = jsonObject.get("nom").asString
+                    var secname = ""
+                    if (!jsonObject.get("prenom").isJsonNull()){secname = jsonObject.get("prenom").asString}
                     val num_carte = jsonObject.get("num_carte").asString
-                    saveUser(num_carte, username, id)
+                    saveUser(num_carte, username,secname, id)
                     Toast.makeText(this@LoginActivity, "Welcome! "+username, Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@LoginActivity, PortsListActivity::class.java)
                         startActivity(intent)
@@ -93,16 +95,16 @@ class LoginActivity : AppCompatActivity() {
                 else{
                     Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
                 }
-            }
         })
     }
 
-    fun saveUser(cardNumber: String,username: String,id: String){
+    fun saveUser(cardNumber: String,username: String,secanme : String, id: String){
         val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.apply{
             putString("CARD_NUMBER", cardNumber)
             putString("USERNAME", username)
+            putString("SECNAME", secanme)
             putString("ID", id)
         }.apply()
         editor.apply()

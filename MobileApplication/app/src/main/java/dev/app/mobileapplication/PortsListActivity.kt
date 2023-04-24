@@ -22,8 +22,9 @@ import retrofit2.Response
 class PortsListActivity : AppCompatActivity() {
 
     lateinit var portsArrayList: ArrayList<String>
-    var portId: String = ""
-    var username = ""
+    private var portId: String = ""
+    private var username = ""
+    private var secname = ""
 
     lateinit var usernameTextView: TextView
     lateinit var cardTextView: TextView
@@ -146,7 +147,8 @@ class PortsListActivity : AppCompatActivity() {
         val sharredPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
         portId = sharredPreferences.getString("CARD_NUMBER", "").toString()
         username = sharredPreferences.getString("USERNAME", "").toString()
-        usernameTextView.text = username
+        secname = sharredPreferences.getString("SECNAME", "").toString()
+        usernameTextView.text = "$username $secname"
         cardTextView.text = portId
 
     }
